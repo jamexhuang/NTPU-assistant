@@ -5,7 +5,7 @@ const thisSeqID = "67028";
 const monthList = "2024-04";
 
 // 設定日期列表
-const dates = ["06"];
+const dates = ["06", "03", "09", "10", "16", "17", "18", "24", "25", "30"];
 
 // 設定每天開始和結束時間變數，24小時制
 const startTime = 09;
@@ -35,7 +35,7 @@ async function getViewStateValues() {
 async function processDateRange() {
   const { viewState, viewStateGenerator } = await getViewStateValues();
 
-  dates.forEach(date => {
+  for (const date of dates) {
     // 產生指定範圍內的隨機分鐘數
     const randomMinute = (Math.floor(Math.random() * (maxMinute - minMinute + 1)) + minMinute).toString().padStart(2, '0');
 
@@ -47,32 +47,40 @@ async function processDateRange() {
     const totalHour = endTime - startTime;
 
     // 組合請求 Body
-    const body = `__VIEWSTATE=${encodeURIComponent(viewState)}&__VIEWSTATEGENERATOR=${encodeURIComponent(viewStateGenerator)}&UserID=${userIDNoElement.value}&work_no=745287&ModifyType=add&monthList=${monthList}&thisSeqID=${thisSeqID}&work_date=${monthList}-${date}&work_start=${workStart}&work_end=${workEnd}&work_memo=${workMemo}&total_hour=${totalHour}`;
+    const body = `__VIEWSTATE=${encodeURIComponent(viewState)}&__VIEWSTATEGENERATOR=${encodeURIComponent(viewStateGenerator)}&UserID=${userIDNoElement.value}&ModifyType=add&monthList=${monthList}&thisSeqID=${thisSeqID}&work_date=${monthList}-${date}&work_start=${workStart}&work_end=${workEnd}&work_memo=${workMemo}&total_hour=${totalHour}`;
 
-    // 發送請求
-    fetch("https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx", {
-      "headers": {
-        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6",
-        "cache-control": "max-age=0",
-        "content-type": "application/x-www-form-urlencoded",
-        "sec-ch-ua": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"macOS\"",
-        "sec-fetch-dest": "iframe",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "same-origin",
-        "sec-fetch-user": "?1",
-        "upgrade-insecure-requests": "1"
-      },
-      "referrer": "https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx",
-      "referrerPolicy": "strict-origin-when-cross-origin",
-      "body": body,
-      "method": "POST",
-      "mode": "cors",
-      "credentials": "include"
-    });
-  });
+    try {
+      // 發送請求
+      const response = await fetch("https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx", {
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6",
+          "cache-control": "max-age=0",
+          "content-type": "application/x-www-form-urlencoded",
+          "sec-ch-ua": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "sec-fetch-dest": "iframe",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "same-origin",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1"
+        },
+        "referrer": "https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx",
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": body,
+        "method": "POST",
+        "mode": "cors",
+        "credentials": "include"
+      });
+
+      const httpCode = response.status;
+      const success = response.ok;
+      console.log(`${monthList}-${date} ${workStart} - ${workEnd}：${success ? '成功✅' : '失敗❌'} (${httpCode})`);
+    } catch (error) {
+      console.log(`${monthList}-${date} ${workStart} - ${workEnd}：失敗❌ (${error.message})`);
+    }
+  }
 }
 
 processDateRange();
