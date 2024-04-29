@@ -19,6 +19,8 @@ const maxMinute = 35;
 const workMemo = "%E6%8E%A5%E8%81%BD%E9%9B%BB%E8%A9%B1%E3%80%81%E7%99%BB%E6%89%93%E5%85%AC%E6%96%87%E3%80%81%E6%89%93%E6%8E%83%E8%BE%A6%E5%85%AC%E5%AE%A4";
 
 // 從網頁中擷取 __VIEWSTATE 和 __VIEWSTATEGENERATOR 的值
+var userIDNoElement = document.getElementById('UserIDNo');
+
 async function getViewStateValues() {
   const response = await fetch("https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx");
   const html = await response.text();
@@ -45,7 +47,7 @@ async function processDateRange() {
     const totalHour = endTime - startTime;
 
     // 組合請求 Body
-    const body = `__VIEWSTATE=${encodeURIComponent(viewState)}&__VIEWSTATEGENERATOR=${encodeURIComponent(viewStateGenerator)}&UserID=&work_no=745287&ModifyType=add&monthList=${monthList}&thisSeqID=${thisSeqID}&work_date=${monthList}-${date}&work_start=${workStart}&work_end=${workEnd}&work_memo=${workMemo}&total_hour=${totalHour}`;
+    const body = `__VIEWSTATE=${encodeURIComponent(viewState)}&__VIEWSTATEGENERATOR=${encodeURIComponent(viewStateGenerator)}&UserID=${userIDNoElement.value}&work_no=745287&ModifyType=add&monthList=${monthList}&thisSeqID=${thisSeqID}&work_date=${monthList}-${date}&work_start=${workStart}&work_end=${workEnd}&work_memo=${workMemo}&total_hour=${totalHour}`;
 
     // 發送請求
     fetch("https://assistant.ntpu.edu.tw/STD/STDAdminPost.aspx", {
