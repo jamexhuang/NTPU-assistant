@@ -10,13 +10,12 @@ const endTime = 16;
 // 設定隨機分鐘數範圍 (例如，產生 0 到 20 之間的隨機分鐘數)
 const minMinute = 0;
 const maxMinute = 15;
+// 工作備註
+const workMemo = "接聽電話、登打公文、打掃辦公室";
 
 
 //**********下面不用改**********//
 
-
-// 工作備註
-const workMemo = "%E6%8E%A5%E8%81%BD%E9%9B%BB%E8%A9%B1%E3%80%81%E7%99%BB%E6%89%93%E5%85%AC%E6%96%87%E3%80%81%E6%89%93%E6%8E%83%E8%BE%A6%E5%85%AC%E5%AE%A4";
 
 // 從網頁中擷取 __VIEWSTATE 和 __VIEWSTATEGENERATOR 的值
 var userIDNoElement = document.getElementById('UserIDNo');
