@@ -8,8 +8,8 @@ const dates = ["06", "03", "09", "10", "16", "17", "18", "24", "25", "30"];
 const startTime = 09;
 const endTime = 16;
 // 設定隨機分鐘數範圍 (例如，產生 0 到 20 之間的隨機分鐘數)
-const minMinute = 20;
-const maxMinute = 35;
+const minMinute = 0;
+const maxMinute = 15;
 
 
 //**********下面不用改**********//
